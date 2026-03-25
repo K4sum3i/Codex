@@ -56,12 +56,18 @@ export default function RootLayout({
         <body className="min-h-full flex flex-col">
           <ThemeProvider
             attribute={"class"}
-            defaultTheme="dark"
+            defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
             {children}
-            <Toaster theme="dark" />
+            <Toaster
+              position="bottom-right"
+              theme="system"
+              options={{
+                roundness: 12,
+              }}
+            />
           </ThemeProvider>
         </body>
       </html>

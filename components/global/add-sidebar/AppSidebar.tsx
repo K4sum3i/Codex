@@ -1,11 +1,17 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Sidebar,
+  SidebarContent,
+  SidebarFooter,
   SidebarHeader,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
 import { Project, User } from "@/lib/generated/prisma/client";
 import React from "react";
+import NavMain from "./nav-main";
+import { data } from "@/lib/constants";
+import RecentOpen from "./recent-open";
+import NavFooter from "./nav-footer";
 
 export default function AppSidebar({
   recentProjects,
@@ -36,6 +42,13 @@ export default function AppSidebar({
           </span>
         </SidebarMenuButton>
       </SidebarHeader>
+      <SidebarContent className="px-3 mt-10 gap-y-6">
+        <NavMain items={data.navMain} />
+        <RecentOpen recentProjects={recentProjects} />
+      </SidebarContent>
+      <SidebarFooter>
+        <NavFooter prismaUser={user} />
+      </SidebarFooter>
     </Sidebar>
   );
 }
