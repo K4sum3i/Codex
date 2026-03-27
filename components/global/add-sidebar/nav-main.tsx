@@ -26,7 +26,7 @@ export default function NavMain({
 }) {
   const pathname = usePathname();
   return (
-    <SidebarGroup className="p-0">
+    <SidebarGroup className="flex flex-col gap-[6px]">
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.title}>
@@ -38,8 +38,12 @@ export default function NavMain({
                 href={item.url}
                 className={`text-lg ${pathname.includes(item.url) && "font-bold"}`}
               >
-                <HugeiconsIcon icon={item.icon} className="text-lg" />
-                <span>{item.title}</span>
+                <div className="w-[18px] h-[18px] flex items-center justify-center shrink-0">
+                  <HugeiconsIcon icon={item.icon} className="text-lg" />
+                </div>
+                <span className="truncate text-xs font-semibold">
+                  {item.title}
+                </span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

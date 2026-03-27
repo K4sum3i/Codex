@@ -34,19 +34,32 @@ export default function RecentOpen({ recentProjects }: Props) {
   };
 
   return recentProjects.length > 0 ? (
-    <SidebarGroup>
-      <SidebarGroupLabel>Recently Opened</SidebarGroupLabel>
-      <SidebarMenu>
+    <SidebarGroup className="flex flex-col gap-[6px]">
+      <SidebarGroupLabel className="text-xs text-muted-foreground pt-0 px-[10px] pb-[6px] whitespace-nowrap">
+        Recently Opened
+      </SidebarGroupLabel>
+      <SidebarMenu className="bg-secondary rounded-lg p-3 flex flex-col gap-[10px]">
+        <div className="text-sm font-bold text-foreground">
+          Continue working
+        </div>
         {recentProjects.length > 0
           ? recentProjects.map((item) => (
-              <SidebarMenuItem key={item.id}>
-                <SidebarMenuButton asChild className="hover:bg-primary-80">
+              <SidebarMenuItem
+                key={item.id}
+                className="flex flex-col gap-[6px]"
+              >
+                <SidebarMenuButton
+                  asChild
+                  className="flex items-center gap-[10px] py-2 px-[10px] rounded-md bg-card min-w-0"
+                >
                   <Button
                     variant={"link"}
                     onClick={() => handleClick(item.id, item.slides)}
                     className="text-xs items-center justify-start"
                   >
-                    <span>{item.title}</span>
+                    <span className="text-sm font-semibold text-foreground truncate">
+                      {item.title}
+                    </span>
                   </Button>
                 </SidebarMenuButton>
               </SidebarMenuItem>

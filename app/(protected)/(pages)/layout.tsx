@@ -1,7 +1,8 @@
 import { getRecentProjects } from "@/actions/projects";
 import { onAuthenticateUser } from "@/actions/user";
 import AppSidebar from "@/components/global/add-sidebar/AppSidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import UpperInfoBar from "@/components/global/upper-info-bar/upperInfoBar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -20,7 +21,14 @@ export default async function Layout({
       <AppSidebar
         user={checkUser.user}
         recentProjects={recentProjects.data || []}
-      ></AppSidebar>
+        variant="inset"
+      />
+      <SidebarInset className="pt-4 px-4 pb-4">
+        <div className="flex-1 rounded-lg p-5 flex flex-col gap-6 overflow-hidden">
+          <UpperInfoBar user={checkUser.user} />
+          {children}
+        </div>
+      </SidebarInset>
     </SidebarProvider>
   );
 }

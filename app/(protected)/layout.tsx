@@ -12,5 +12,9 @@ export default async function Layout({
   const auth = await onAuthenticateUser();
   if (!auth.user) redirect("/sign-in");
 
-  return <div className="w-full min-h-screen">{children}</div>;
+  return (
+    <div className="min-h-[812px] flex bg-background text-foreground text-sm leading-[1.4]">
+      {children}
+    </div>
+  );
 }
