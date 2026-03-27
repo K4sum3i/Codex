@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Project } from "@/lib/generated/prisma/client";
 import { useSlideStore } from "@/store/useSlideStore";
+import { JsonValue } from "@prisma/client/runtime/client";
 import { useRouter } from "next/navigation";
 import { sileo } from "sileo";
 
