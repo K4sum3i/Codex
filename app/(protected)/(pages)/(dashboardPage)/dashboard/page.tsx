@@ -19,11 +19,11 @@ export default async function DashboardPage() {
           </div>
         </div>
         <ProjectCard />
-        {allProjects.data && allProjects.data.length > 0 ? (
+        {/*         {allProjects.data && allProjects.data.length > 0 ? (
           <Projects projects={allProjects.data} />
         ) : (
           <NotFound />
-        )}
+        )} */}
       </div>
     </div>
   );

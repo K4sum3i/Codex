@@ -112,22 +112,22 @@ export default function ProjectCard({
   return (
     <motion.div
       variants={itemVariants}
-      className={`group w-full flex-col gap-y-3 rounded-xl p-3 transition-colors ${!isDelete && "hover:bg-muted/50"}`}
+      className={`bg-card shadow-[inset_0_0_0_1px_var(--border)] rounded-lg p-[14px] flex flex-col gap-[14px] min-w-0 ${!isDelete}`}
     >
       <div
-        className="relative aspect-[16/10] overflow-hidden rounded-lg cursor-pointer"
+        className="aspect-[16/10] rounded-md p-[14px] flex flex-col justify-between gap-3 overflow-hidden bg-card"
         onClick={handleNavigation}
       >
         <ThumbnailPreview theme={themes} />
       </div>
-      <div className="w-full">
-        <div className="space-y-1">
-          <h3 className="font-semibold text-base text-primary line-clamp-1">
+      <div className="w-full gap-3 min-w-0">
+        <div className="flex flex-col min-w-0 gap-1">
+          <h3 className="font-bold text-base text-foreground truncate">
             {title} Fake Title
           </h3>
           <div className="flex w-full justify-between items-center gap-2">
             <p
-              className="text-sm text-muted-foreground"
+              className="text-sm text-muted-foreground truncate"
               suppressHydrationWarning
             >
               {timeAgo(createdAt)}
@@ -141,7 +141,7 @@ export default function ProjectCard({
                 onClick={handleRecover}
                 handleOpen={() => setOpen(!open)}
               >
-                <Button size={"sm"} disabled={loading}>
+                <Button size={"lg"} disabled={loading}>
                   Recover
                 </Button>
               </AlertDialogBox>
@@ -154,7 +154,7 @@ export default function ProjectCard({
                 onClick={handleDelete}
                 handleOpen={() => setOpen(!open)}
               >
-                <Button size={"sm"} disabled={loading}>
+                <Button size={"lg"} disabled={loading}>
                   Delete
                 </Button>
               </AlertDialogBox>

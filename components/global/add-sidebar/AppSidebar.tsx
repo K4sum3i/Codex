@@ -23,7 +23,7 @@ export default function AppSidebar({
   return (
     <Sidebar
       collapsible="icon"
-      className="w-[265px] bg-sidebar flex flex-col justify-between pt-5 px-4 pb-4 gap-5 shrink-0"
+      className=" bg-sidebar flex flex-col justify-between pt-5 px-4 pb-4 gap-5 shrink-0"
       {...props}
     >
       {/*     

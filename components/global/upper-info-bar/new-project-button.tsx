@@ -10,7 +10,11 @@ export default function NewProjectButton({ user }: { user: User }) {
   const router = useRouter();
 
   return (
-    <Button size={"lg"} disabled={!user.subscription}>
+    <Button
+      size={"lg"}
+      disabled={!user.subscription}
+      onClick={() => router.push("/create-page")}
+    >
       <HugeiconsIcon icon={Plus} />
       New Project
     </Button>

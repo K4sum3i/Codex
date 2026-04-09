@@ -10,7 +10,7 @@ type Props = {
 export default function Projects({ projects }: Props) {
   return (
     <motion.div
-      className="grid grid-cols-1 gap-4"
+      className="grid grid-cols-3 gap-[14px]"
       variants={containerVariants}
       initial="hidden"
       animate="visible"

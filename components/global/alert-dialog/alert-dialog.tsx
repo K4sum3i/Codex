@@ -39,8 +39,8 @@ export default function AlertDialogBox({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button variant={variant} onClick={onClick}>
+          <AlertDialogCancel size={"lg"}>Cancel</AlertDialogCancel>
+          <Button variant={variant} onClick={onClick} size={"lg"}>
             {loading ? (
               <>
                 <Spinner />
