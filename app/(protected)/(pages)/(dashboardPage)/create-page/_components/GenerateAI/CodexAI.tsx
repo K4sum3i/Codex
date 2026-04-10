@@ -18,6 +18,10 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import CardList from "../Common/CardList";
+import usePromptStore from "@/store/usePromptStore";
+import RecentPrompts from "./RecentPrompts";
+import { sileo } from "sileo";
+import { generateCodexPrompt } from "@/actions/openai";
 
 type Props = {
   onBack: () => void;
@@ -29,8 +33,8 @@ export default function CodexAI({ onBack }: Props) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [editText, setEditText] = useState("");
-
   const [noOfCards, setNoOfCards] = useState(0);
+  const { prompts, addPrompt } = usePromptStore();
 
   const {
     outlines,
@@ -52,6 +56,19 @@ export default function CodexAI({ onBack }: Props) {
 
     setCurrentAiPrompt("");
     resetOutlines();
+  };
+
+  const generateOutline = async () => {
+    if (currentAiPrompt === "") {
+      sileo.error({
+        title: "Error",
+        description: "Please enter a prompt to generate an outline",
+      });
+      return;
+    }
+
+    setIsGenerating(true);
+    const res = await generateCodexPrompt(currentAiPrompt);
   };
 
   const handleGenerate = () => {};
@@ -163,7 +180,19 @@ export default function CodexAI({ onBack }: Props) {
           }}
         />
 
-        {outlines.length > 0 && <Button onClick={handleGenerate}></Button>}
+        {outlines.length > 0 && (
+          <Button onClick={handleGenerate} disabled={isGenerating}>
+            {isGenerating ? (
+              <>
+                <Spinner />
+              </>
+            ) : (
+              "Generate"
+            )}
+          </Button>
+        )}
+
+        {prompts?.length > 0 && <RecentPrompts />}
       </div>
     </div>
   );
