@@ -9,14 +9,15 @@ import {
   SelectTrigger,
   SelectValue,
   SelectItem,
-  SelectLabel,
 } from "@/components/ui/select";
+import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import useCodexAIStore from "@/store/useCodexAIStore";
 import { ArrowLeft02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import CardList from "../Common/CardList";
 
 type Props = {
   onBack: () => void;
@@ -31,8 +32,14 @@ export default function CodexAI({ onBack }: Props) {
 
   const [noOfCards, setNoOfCards] = useState(0);
 
-  const { currentAiPrompt, setCurrentAiPrompt, outlines, resetOutlines } =
-    useCodexAIStore();
+  const {
+    outlines,
+    addOutline,
+    addMultipleOutlines,
+    resetOutlines,
+    currentAiPrompt,
+    setCurrentAiPrompt,
+  } = useCodexAIStore();
 
   const handleBack = () => {
     onBack();
@@ -46,6 +53,8 @@ export default function CodexAI({ onBack }: Props) {
     setCurrentAiPrompt("");
     resetOutlines();
   };
+
+  const handleGenerate = () => {};
 
   return (
     <div className="flex flex-col gap-7 min-w-0 overflow-hidden px-4">
@@ -90,7 +99,7 @@ export default function CodexAI({ onBack }: Props) {
               value={noOfCards.toString()}
               onValueChange={(value) => setNoOfCards(parseInt(value))}
             >
-              <SelectTrigger className="inline-flex items-center justify-between gap-3 w-[180px] h-10 px-4 bg-transparent border-border rounded-md text-sm text-foreground">
+              <SelectTrigger>
                 <SelectValue placeholder="Select a cards" />
               </SelectTrigger>
               <SelectContent>
@@ -119,36 +128,43 @@ export default function CodexAI({ onBack }: Props) {
               justifyContent: "end",
             }}
           >
-            <Button size={"lg"} variant={"outline"}>
-              Generate Outline
+            <Button
+              size={"lg"}
+              variant={"default"}
+              disabled={isGenerating}
+              /*               onClick={generateOutline} */
+            >
+              {isGenerating ? (
+                <>
+                  <Spinner />
+                </>
+              ) : (
+                "Generate Outline"
+              )}
             </Button>
           </div>
         </div>
+
+        <CardList
+          outlines={outlines}
+          addOutline={addOutline}
+          addMultipleOutlines={addMultipleOutlines}
+          editingCard={editingCard}
+          selectedCard={selectedCard}
+          editText={editText}
+          onEditChange={setEditText}
+          onCardSelect={setSelectedCard}
+          setEditText={setEditText}
+          setEditingCard={setEditingCard}
+          setSelectedCard={setSelectedCard}
+          onCardDoubleClick={(id, title) => {
+            setEditingCard(id);
+            setEditText(title);
+          }}
+        />
+
+        {outlines.length > 0 && <Button onClick={handleGenerate}></Button>}
       </div>
     </div>
-
-    /*     <div className="flex flex-col gap-8 min-w-0 overflow-auto pr-1">
-      <div className="flex flex-col gap-8 max-w-[840px] mx-auto w-full pb-10">
-        <div className="flex items-center justify-center gap-5 min-w-0">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="min-w-0 flex flex-col gap-2"
-          >
-            <Button size={"lg"} onClick={handleBack} variant={"outline"}>
-              <HugeiconsIcon icon={ArrowLeft02Icon} />
-              Back
-            </Button>
-          </motion.div>
-          <h1
-            className="m-0 font-bold text-foreground"
-            style={{ fontSize: "28px" }}
-          >
-            Generate with <span style={{ fontSize: "32px" }}>Codex AI</span>
-          </h1>
-        </div>
-      </div>
-    </div> */
   );
 }
