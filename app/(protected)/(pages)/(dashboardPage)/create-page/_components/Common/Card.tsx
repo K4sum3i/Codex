@@ -50,7 +50,7 @@ export default function Card({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ type: "spring", stiffness: 500, damping: 30, mass: 1 }}
-      className="relative"
+      className="w-full bg-card border-border rounded-lg flex flex-col gap-[14px] relative"
     >
       <div
         style={dragOverStyles}
@@ -58,7 +58,11 @@ export default function Card({
         onDragOver={onDragOver}
         {...dragHandlers}
       >
-        <UICard onClick={onCardClick} onDoubleClick={onCardDoubleClick}>
+        <UICard
+          onClick={onCardClick}
+          onDoubleClick={onCardDoubleClick}
+          className="flex items-start justify-between gap-4"
+        >
           <div>
             {isEditing ? (
               <Input

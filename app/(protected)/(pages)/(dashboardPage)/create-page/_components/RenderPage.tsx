@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import CreatePage from "./CreatePage/CreatePage";
 import CodexAI from "./GenerateAI/CodexAI";
+import ScratchPage from "./Scratch/ScratchPage";
 
 type Props = {};
 export default function RenderPage(props: Props) {
@@ -28,7 +29,7 @@ export default function RenderPage(props: Props) {
       case "codex-ai":
         return <CodexAI onBack={handleBack} />;
       case "create-scratch":
-        return <></>;
+        return <ScratchPage onBack={handleBack} />;
       default:
         return null;
     }

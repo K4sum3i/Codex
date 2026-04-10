@@ -140,7 +140,7 @@ export default function CardList({
 
   return (
     <motion.div
-      className="space-y-2 -my-2"
+      className="flex flex-col gap-5 w-full"
       layout
       onDragOver={(e) => {
         e.preventDefault();
