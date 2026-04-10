@@ -7,7 +7,7 @@ import {
   itemVariants,
 } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
-import RecentPrompts from "./RecentPrompts";
+import RecentPrompts from "../GenerateAI/RecentPrompts";
 import usePromptStore from "@/store/usePromptStore";
 
 type Props = {
@@ -17,7 +17,7 @@ type Props = {
 export default function CreatePage({ onSelectOption }: Props) {
   const { prompts, setPage } = usePromptStore();
   return (
-    <motion.div className="flex flex-col gap-8 min-w-0 overflow-auto pr-1">
+    <motion.div className="flex flex-col gap-8 min-w-0 overflow-hidden pr-1">
       <motion.div
         variants={containerVariants}
         initial="hidden"

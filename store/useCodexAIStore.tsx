@@ -8,6 +8,7 @@ type CodexAIStore = {
   addMultipleOutlines: (outlines: OutlineCard[]) => void;
   addOutline: (outline: OutlineCard) => void;
   currentAiPrompt: string;
+  resetOutlines: () => void;
 };
 
 const useCodexAIStore = create<CodexAIStore>()(
@@ -27,6 +28,9 @@ const useCodexAIStore = create<CodexAIStore>()(
         set(() => ({
           outlines: [...outlines],
         }));
+      },
+      resetOutlines: () => {
+        set({ outlines: [] });
       },
     }),
     {
