@@ -1,3 +1,5 @@
+"use client";
+
 import { containerVariants } from "@/lib/constants";
 import { Project } from "@/lib/generated/prisma/client";
 import { motion } from "motion/react";
@@ -10,7 +12,11 @@ type Props = {
 export default function Projects({ projects }: Props) {
   return (
     <motion.div
-      className="grid grid-cols-3 gap-[14px]"
+      className="gap-[14px]"
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(3, 1fr)",
+      }}
       variants={containerVariants}
       initial="hidden"
       animate="visible"

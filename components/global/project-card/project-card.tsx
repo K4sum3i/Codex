@@ -123,7 +123,7 @@ export default function ProjectCard({
       <div className="w-full gap-3 min-w-0">
         <div className="flex flex-col min-w-0 gap-1">
           <h3 className="font-bold text-base text-foreground truncate">
-            {title} Fake Title
+            {title}
           </h3>
           <div className="flex w-full justify-between items-center gap-2">
             <p

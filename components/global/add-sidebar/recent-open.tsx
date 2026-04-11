@@ -54,7 +54,6 @@ export default function RecentOpen({ recentProjects }: Props) {
                   className="flex items-center gap-[10px] py-2 px-[10px] rounded-md bg-card min-w-0"
                 >
                   <Button
-                    variant={"link"}
                     onClick={() => handleClick(item.id, item.slides)}
                     className="text-xs items-center justify-start"
                   >

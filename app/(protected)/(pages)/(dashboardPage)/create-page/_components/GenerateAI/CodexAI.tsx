@@ -16,12 +16,16 @@ import useCodexAIStore from "@/store/useCodexAIStore";
 import { ArrowLeft02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardList from "../Common/CardList";
 import usePromptStore from "@/store/usePromptStore";
 import RecentPrompts from "./RecentPrompts";
 import { sileo } from "sileo";
-import { generateCodexPrompt } from "@/actions/openai";
+import { OutlineCard } from "@/lib/types";
+import { v4 as uuid } from "uuid";
+import { generateCodexPrompt } from "@/actions/gemini";
+import { createProject } from "@/actions/projects";
+import { useSlideStore } from "@/store/useSlideStore";
 
 type Props = {
   onBack: () => void;
@@ -29,6 +33,7 @@ type Props = {
 
 export default function CodexAI({ onBack }: Props) {
   const router = useRouter();
+  const { setProject } = useSlideStore();
   const [editingCard, setEditingCard] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
@@ -69,9 +74,78 @@ export default function CodexAI({ onBack }: Props) {
 
     setIsGenerating(true);
     const res = await generateCodexPrompt(currentAiPrompt);
+    if (res.status === 200 && res?.data?.outlines) {
+      const cardsData: OutlineCard[] = [];
+      res.data?.outlines.map((outline: string, idx: number) => {
+        const newCard = {
+          id: uuid(),
+          title: outline,
+          order: idx + 1,
+        };
+        cardsData.push(newCard);
+      });
+      addMultipleOutlines(cardsData);
+      setNoOfCards(cardsData.length);
+      sileo.success({
+        title: "Succes",
+        description: "Outlines generated successfully!",
+      });
+    } else {
+      sileo.error({
+        title: "Error",
+        description: "Failed to generate outline. Please try again.",
+      });
+    }
+    setIsGenerating(false);
   };
 
-  const handleGenerate = () => {};
+  useEffect(() => {
+    setNoOfCards(outlines.length);
+  }, [outlines.length]);
+
+  const handleGenerate = async () => {
+    setIsGenerating(true);
+    if (outlines.length === 0) {
+      sileo.error({
+        title: "Error",
+        description: "Please add at least one card to generate slides",
+      });
+      return;
+    }
+    try {
+      const res = await createProject(
+        currentAiPrompt,
+        outlines.slice(0, noOfCards),
+      );
+
+      if (res.status !== 200 || !res.data)
+        throw new Error("Unable to create project");
+
+      router.push(`/presentation/${res.data.id}/select-theme`);
+      setProject(res.data);
+
+      addPrompt({
+        id: uuid(),
+        title: currentAiPrompt || outlines?.[0]?.title,
+        outlines: outlines,
+        createdAt: new Date().toISOString(),
+      });
+      sileo.success({
+        title: "Succes",
+        description: "Project created successfully!",
+      });
+      setCurrentAiPrompt("");
+      resetOutlines();
+    } catch (error) {
+      console.log(error);
+      sileo.error({
+        title: "Error",
+        description: "Failed to create project",
+      });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-7 min-w-0 overflow-hidden px-4">
@@ -149,7 +223,7 @@ export default function CodexAI({ onBack }: Props) {
               size={"lg"}
               variant={"default"}
               disabled={isGenerating}
-              /*               onClick={generateOutline} */
+              onClick={generateOutline}
             >
               {isGenerating ? (
                 <>

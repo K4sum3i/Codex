@@ -1,6 +1,5 @@
 import { getAllProjects } from "@/actions/projects";
 import NotFound from "@/components/global/not-found/not-found";
-import ProjectCard from "@/components/global/project-card/project-card";
 import Projects from "@/components/global/Projects/Projects";
 
 export default async function DashboardPage() {
@@ -18,12 +17,12 @@ export default async function DashboardPage() {
             </p>
           </div>
         </div>
-        <ProjectCard />
-        {/*         {allProjects.data && allProjects.data.length > 0 ? (
+
+        {allProjects.data && allProjects.data.length > 0 ? (
           <Projects projects={allProjects.data} />
         ) : (
           <NotFound />
-        )} */}
+        )}
       </div>
     </div>
   );

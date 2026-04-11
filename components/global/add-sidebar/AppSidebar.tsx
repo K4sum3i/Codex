@@ -26,14 +26,6 @@ export default function AppSidebar({
       className=" bg-sidebar flex flex-col justify-between pt-5 px-4 pb-4 gap-5 shrink-0"
       {...props}
     >
-      {/*     
-      <SidebarContent className="px-2 mt-10 gap-y-6">
-        <NavMain items={data.navMain} />
-        <RecentOpen recentProjects={recentProjects} />
-      </SidebarContent>
-      <SidebarFooter>
-        <NavFooter prismaUser={user} />
-      </SidebarFooter> */}
       <SidebarHeader className="flex flex-col gap-5">
         <SidebarMenuButton className="flex items-center gap-[12px] py-[8px] px-[10px]">
           <Avatar>

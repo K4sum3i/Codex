@@ -24,17 +24,27 @@ export default function AddCardButton({ onAddCard }: Props) {
     >
       <AnimatePresence>
         {showGap && (
-          <motion.div>
-            <div />
+          <motion.div className="flex items-center gap-[14px] w-full py-[2px] px-0">
+            <div
+              className="flex-1 bg-border"
+              style={{
+                height: "1px",
+              }}
+            />
             <Button
               variant={"outline"}
-              size={"sm"}
+              size={"lg"}
               onClick={onAddCard}
               aria-label="Add new card"
             >
               <HugeiconsIcon icon={PlusSignCircleIcon} />
             </Button>
-            <div />
+            <div
+              className="flex-1 bg-border"
+              style={{
+                height: "1px",
+              }}
+            />
           </motion.div>
         )}
       </AnimatePresence>

@@ -20,6 +20,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import CardList from "../Common/CardList";
 import { OutlineCard } from "@/lib/types";
+import { sileo } from "sileo";
+import { createProject } from "@/actions/projects";
+import { useSlideStore } from "@/store/useSlideStore";
 
 type Props = {
   onBack: () => void;
@@ -27,6 +30,7 @@ type Props = {
 
 export default function ScratchPage({ onBack }: Props) {
   const router = useRouter();
+  const { setProject } = useSlideStore();
   const { outlines, resetOutlines, addOutline, addMultipleOutlines } =
     useScractchStore();
   const [editText, setEditText] = useState("");
@@ -51,6 +55,41 @@ export default function ScratchPage({ onBack }: Props) {
     };
     setEditText("");
     addOutline(newCard);
+  };
+
+  const handleGenerate = async () => {
+    if (outlines.length === 0) {
+      sileo.error({
+        title: "Error",
+        description: "Please add at least one card to generate slides",
+      });
+      return;
+    }
+
+    const res = await createProject(outlines?.[0]?.title, outlines);
+
+    if (res.status !== 200) {
+      sileo.error({
+        title: "Error",
+        description: res.error || "Failed to create project",
+      });
+      return;
+    }
+
+    if (res.data) {
+      setProject(res.data);
+      resetOutlines();
+      sileo.success({
+        title: "Success",
+        description: res.error || "Project created successfully",
+      });
+      router.push(`/presentation/${res.data.id}/select-theme`);
+    } else {
+      sileo.error({
+        title: "Error",
+        description: "Failed to create project",
+      });
+    }
   };
 
   return (
@@ -127,6 +166,12 @@ export default function ScratchPage({ onBack }: Props) {
         <Button variant={"secondary"} size={"lg"} onClick={handleAddCard}>
           Add Card
         </Button>
+
+        {outlines?.length > 0 && (
+          <Button variant={"default"} size={"lg"} onClick={handleGenerate}>
+            Generate PPT
+          </Button>
+        )}
       </div>
     </motion.div>
   );

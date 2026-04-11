@@ -121,17 +121,36 @@ export default function CardList({
     setDragOverIndex(null);
   };
 
+  const onAddCard = (index?: number) => {
+    const newCard: OutlineCard = {
+      id: Math.random().toString(36).substring(2, 9),
+      title: editText || "New Section",
+      order: (index !== undefined ? index + 1 : outlines.length) + 1,
+    };
+
+    const updatedCards =
+      index !== undefined
+        ? [
+            ...outlines.slice(0, index + 1),
+            newCard,
+            ...outlines
+              .slice(index + 1)
+              .map((card) => ({ ...card, order: card.order + 1 })),
+          ]
+        : [...outlines, newCard];
+    addMultipleOutlines(updatedCards);
+    setEditText("");
+  };
+
   const getDragOverStyles = (cardIndex: number) => {
     if (dragOverIndex === null || draggedItem === null) return {};
     if (cardIndex === dragOverIndex) {
       return {
-        borderTop: "2px solid #000",
         marginTop: "0.5rem",
         transition: "margin 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
       };
     } else if (cardIndex === dragOverIndex - 1) {
       return {
-        borderBotton: "2px solid #000",
         marginBottom: "0.5rem",
         transition: "margin 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
       };
@@ -140,7 +159,7 @@ export default function CardList({
 
   return (
     <motion.div
-      className="flex flex-col gap-5 w-full"
+      className="flex flex-col gap-3 w-full"
       layout
       onDragOver={(e) => {
         e.preventDefault();
